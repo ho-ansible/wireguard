@@ -1,1 +1,7 @@
 ---
+
+wg_name: wg
+wg_port: "51820"
+wg_host:
+wg_peers: []
+
