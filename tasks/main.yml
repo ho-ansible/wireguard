@@ -1,1 +1,33 @@
 ---
+
+- name: wireguard | set apt repo preferences
+  tags:
+  - apt
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/apt/preferences.d/{{ item }}"
+  loop:
+  - limit-repo
+
+- name: wireguard | add repo
+  tags:
+  - apt
+  apt_repository:
+    repo: "deb {{ wg_repo }} {{ wg_repo_rel }}"
+    file: wireguard.list
+
+- name: wireguard | install package
+  tags:
+  - package
+  package:
+    name: wireguard-tools
+
+- name: wireguard | systemd-networkd config
+  tags:
+  - config
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/systemd/network/{{ wg_name }}.{{ item }}"
+  loop:
+    - netdev
+    - network
