@@ -9,6 +9,8 @@ Only tested on Debian stable, for now.
 + `wg_port` (default: 51820): UDP port to listen on
 + `wg_host` (default: none): host/address by which others can reach this node
 + `wg_peers` (default: none): inventory host list
++ `wg_privkey`: private key, use `wg genkey` to make a new one
++ `wg_pubkey`: public key, use `cat privkey | wg pubkey` to obtain
 + `wg_server_opts` (default: none): list of additional options for `[WireGuard]` section
 + `wg_client_opts` (default: none): list of additional options for this host's
   `[WireGuardPeer]` section on other hosts' config
