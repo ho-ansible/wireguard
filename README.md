@@ -22,7 +22,7 @@ Additional optional role vars:
   e.g., additional routes
 
 ## Dependencies
-None.
++ ho-ansible.systemd-networkd
 
 ## Example Playbook
 

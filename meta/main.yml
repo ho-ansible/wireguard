@@ -15,4 +15,5 @@ galaxy_info:
   galaxy_tags:
     - template
 
-dependencies: []
+dependencies:
+- ho-ansible.systemd-networkd
