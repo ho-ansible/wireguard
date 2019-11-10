@@ -1,0 +1,22 @@
+---
+
+- name: wireguard | genkey | private key
+  command: wg genkey
+  register: wg_privkey
+
+- name: wireguard | genkey | public key
+  command: wg pubkey
+  stdin: "{{ wg_privkey }}"
+  register: wg_pubkey
+
+- name: wireguard | genkey | host_vars dir
+  local_action:
+    module: file
+    path: "{{ wg_keydir }}/{{ inventory_hostname }}"
+    state: directory
+
+- name: wireguard | genkey | save keys in host_vars
+  local_action:
+    module: template
+    src: wg.yml.j2
+    dest: "{{ wg_keydir }}/{{ inventory_hostname }}/wg.yml"

@@ -10,10 +10,13 @@ PrivateKey={{ wg_privkey }}
 {{ key }}={{ value }}
 {% endfor %}
 
-{% for peer in wg_peers %}
+{% for peer in wg_peers if hostvars[peer].wg_pubkey is defined %}
 [WireGuardPeer] # {{ peer }}
-AllowedIPs={{ wg_ip | ipaddr('address') }}/32
+AllowedIPs={{ hostvars[peer].wg_ip | ipaddr('address') }}/32
 PublicKey={{ hostvars[peer].wg_pubkey }}
+{% if hostvars[peer].wg_address is defined %}
+Endpoint={{ hostvars[peer].wg_address }}:{{ hostvars[peer].wg_port }}
+{% endif %}
 {% for key, value in hostvars[peer].wg_client_opts %}
 {{ key }}={{ value }}
 {% endfor %}

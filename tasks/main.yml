@@ -1,26 +1,9 @@
 ---
 
-- name: wireguard | set apt repo preferences
-  tags:
-  - apt
-  template:
-    src: "{{ item }}.j2"
-    dest: "/etc/apt/preferences.d/{{ item }}"
-  loop:
-  - limit-repo
+- import_tasks: install.yml
 
-- name: wireguard | add repo
-  tags:
-  - apt
-  apt_repository:
-    repo: "deb {{ wg_repo }} {{ wg_repo_rel }}"
-    file: wireguard.list
-
-- name: wireguard | install package
-  tags:
-  - package
-  package:
-    name: wireguard-tools
+- include_tasks: genkey.yml
+  when: wg_privkey is not defined
 
 - name: wireguard | systemd-networkd config
   tags:
