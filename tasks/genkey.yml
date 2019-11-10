@@ -1,5 +1,21 @@
 ---
 
-- name: wireguard | generate private key
+- name: wireguard | genkey | private key
   command: [ "wg", "genkey" ]
-  register: privkey
+  register: wg_privkey
+
+- name: wireguard | genkey | public key
+  command: [ "wg", "pubkey" ]
+  register: wg_pubkey
+
+- name: wireguard | genkey | host_vars dir
+  local_action:
+    module: file
+    path: "{{ wg_keydir }}/{{ inventory_hostname }}"
+    state: directory
+
+- name: wireguard | genkey | save keys in host_vars
+  local_action:
+    module: template
+    src: wg.yml.j2
+    dest: "{{ wg_keydir }}/{{ inventory_hostname }}/wg.yml"
