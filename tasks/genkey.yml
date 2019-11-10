@@ -1,11 +1,12 @@
 ---
 
 - name: wireguard | genkey | private key
-  command: [ "wg", "genkey" ]
+  command: wg genkey
   register: wg_privkey
 
 - name: wireguard | genkey | public key
-  command: [ "wg", "pubkey" ]
+  command: wg pubkey
+  stdin: "{{ wg_privkey }}"
   register: wg_pubkey
 
 - name: wireguard | genkey | host_vars dir
