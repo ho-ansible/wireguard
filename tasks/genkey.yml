@@ -1,0 +1,5 @@
+---
+
+- name: wireguard | generate private key
+  command: [ "wg", "genkey" ]
+  register: privkey
