@@ -2,7 +2,6 @@
 
 wg_name: wg
 wg_port: "51820"
-wg_host:
 wg_ip: "192.168.1.1/24"
 wg_peers: []
 wg_keydir: "{{ inventory_dir }}/host_vars"
