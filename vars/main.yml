@@ -1,4 +1,4 @@
 ---
 
-wg_repo: "https://www.wireguard.com/"
+wg_repo: "http://http.us.debian.org/debian/"
 wg_repo_rel: unstable
