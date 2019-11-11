@@ -21,12 +21,14 @@
     cacheable: yes
 
 - name: wireguard | genkey | host_vars dir
+  become: false
   local_action:
     module: file
     path: "{{ wg_keydir }}/{{ inventory_hostname }}"
     state: directory
 
 - name: wireguard | genkey | save keys in host_vars
+  become: false
   local_action:
     module: template
     src: wg.yml.j2
