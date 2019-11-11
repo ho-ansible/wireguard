@@ -20,4 +20,7 @@
   tags:
   - package
   package:
-    name: wireguard
+    name: "{{ item }}"
+  loop:
+  - "linux-headers-{{ ansible_kernel | split('-') | last }}"
+  - wireguard
