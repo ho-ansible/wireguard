@@ -6,7 +6,8 @@
 
 - name: wireguard | genkey | set wg_privkey
   set_fact:
-    wg_privkey: wg_priv.stdout
+    wg_privkey: "{{ wg_priv.stdout }}"
+    cacheable: yes
 
 - name: wireguard | genkey | public key
   command: wg pubkey
@@ -16,7 +17,8 @@
 
 - name: wireguard | genkey | set wg_pubkey
   set_fact:
-    wg_pubkey: wg_pub.stdout
+    wg_pubkey: "{{ wg_pub.stdout }}"
+    cacheable: yes
 
 - name: wireguard | genkey | host_vars dir
   local_action:
