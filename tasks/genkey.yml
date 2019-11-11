@@ -31,5 +31,7 @@
   become: false
   local_action:
     module: template
-    src: wg.yml.j2
-    dest: "{{ wg_keydir }}/{{ inventory_hostname }}/wg.yml"
+    src: "{{ item }}.j2"
+    dest: "{{ wg_keydir }}/{{ inventory_hostname }}/{{ item }}"
+  loop:
+  - wg_keys.yml
