@@ -12,7 +12,8 @@ PrivateKey={{ wg_privkey }}
 
 {% for peer in q('inventory_hostnames', wg_peers) 
   if peer != inventory_hostname and hostvars[peer].wg_pubkey is defined %}
-[WireGuardPeer] # {{ peer }}
+# {{ peer }}
+[WireGuardPeer]
 AllowedIPs={{ hostvars[peer].wg_ip | ipaddr('address') }}/32
 PublicKey={{ hostvars[peer].wg_pubkey }}
 {% if hostvars[peer].wg_address is defined %}
