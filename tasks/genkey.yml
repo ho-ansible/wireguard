@@ -2,13 +2,21 @@
 
 - name: wireguard | genkey | private key
   command: wg genkey
-  register: wg_privkey
+  register: wg_priv
+
+- name: wireguard | genkey | set wg_privkey
+  set_fact:
+    wg_privkey: wg_priv.stdout
 
 - name: wireguard | genkey | public key
   command: wg pubkey
   args:
     stdin: "{{ wg_privkey }}"
-  register: wg_pubkey
+  register: wg_pub
+
+- name: wireguard | genkey | set wg_pubkey
+  set_fact:
+    wg_pubkey: wg_pub.stdout
 
 - name: wireguard | genkey | host_vars dir
   local_action:
