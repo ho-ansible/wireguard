@@ -3,6 +3,8 @@
 - import_tasks: install.yml
 
 - include_tasks: genkey.yml
+  tags:
+  - genkey
   when: wg_privkey is not defined
 
 - name: wireguard | systemd-networkd config
