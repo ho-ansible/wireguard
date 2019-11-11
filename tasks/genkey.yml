@@ -33,5 +33,6 @@
     module: template
     src: "{{ item }}.j2"
     dest: "{{ wg_keydir }}/{{ inventory_hostname }}/{{ item }}"
+    mode: 0420
   loop:
   - wg_keys.yml

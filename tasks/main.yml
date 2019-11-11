@@ -11,6 +11,8 @@
   template:
     src: "{{ item }}.j2"
     dest: "/etc/systemd/network/{{ wg_name }}.{{ item }}"
+    mode: 0420
+    group: systemd-network
   loop:
     - netdev
     - network
