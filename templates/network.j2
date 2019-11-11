@@ -4,4 +4,4 @@ Name={{ wg_name }}
 [Network]
 Address={{ wg_ip }}
 
-{{ wg_network_opts }}
+{{ wg_network_opts | d() }}
