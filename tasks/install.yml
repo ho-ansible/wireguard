@@ -22,5 +22,5 @@
   package:
     name: "{{ item }}"
   loop:
-  - "linux-headers-{{ ansible_kernel | split('-') | last }}"
+  - "linux-headers-{{ ansible_kernel | regex_replace('^.*-') }}"
   - wireguard
