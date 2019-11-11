@@ -6,7 +6,8 @@
 
 - name: wireguard | genkey | public key
   command: wg pubkey
-  stdin: "{{ wg_privkey }}"
+  args:
+    stdin: "{{ wg_privkey }}"
   register: wg_pubkey
 
 - name: wireguard | genkey | host_vars dir
