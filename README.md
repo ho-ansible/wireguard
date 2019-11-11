@@ -29,7 +29,7 @@ Additional optional role vars:
 ```
 - hosts: all
   roles:
-    - { role: ho-ansible.template }
+    - { role: ho-ansible.wireguard }
 ```
 
 ## License
