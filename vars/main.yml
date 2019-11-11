@@ -1,4 +1,4 @@
 ---
 
 wg_repo: "http://http.us.debian.org/debian/"
-wg_repo_rel: unstable
+wg_repo_rel: testing
