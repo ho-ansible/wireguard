@@ -16,8 +16,10 @@
     repo: "deb {{ wg_repo }} {{ wg_repo_rel }} main"
     filename: wireguard
 
-- name: wireguard | install package
+- name: wireguard | install packages
   tags:
   - package
   package:
     name: wireguard
+  loop:
+  - wireguard
