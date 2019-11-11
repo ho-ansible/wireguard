@@ -6,7 +6,7 @@ Description=Wireguard VPN
 [WireGuard]
 ListenPort={{ wg_port }}
 PrivateKey={{ wg_privkey }}
-{% for key, value in wg_server_opts %}
+{% for key, value in wg_server_opts | d() %}
 {{ key }}={{ value }}
 {% endfor %}
 
@@ -17,7 +17,7 @@ PublicKey={{ hostvars[peer].wg_pubkey }}
 {% if hostvars[peer].wg_address is defined %}
 Endpoint={{ hostvars[peer].wg_address }}:{{ hostvars[peer].wg_port }}
 {% endif %}
-{% for key, value in hostvars[peer].wg_client_opts %}
+{% for key, value in hostvars[peer].wg_client_opts | d() %}
 {{ key }}={{ value }}
 {% endfor %}
 
