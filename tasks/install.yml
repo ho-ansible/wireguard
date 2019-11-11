@@ -14,7 +14,7 @@
   - apt
   apt_repository:
     repo: "deb {{ wg_repo }} {{ wg_repo_rel }}"
-    file: wireguard.list
+    filename: wireguard
 
 - name: wireguard | install package
   tags:
