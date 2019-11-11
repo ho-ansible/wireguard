@@ -20,4 +20,4 @@
   tags:
   - package
   package:
-    name: wireguard-tools
+    name: wireguard
