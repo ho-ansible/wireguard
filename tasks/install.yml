@@ -13,7 +13,7 @@
   tags:
   - apt
   apt_repository:
-    repo: "deb {{ wg_repo }} {{ wg_repo_rel }}"
+    repo: "deb {{ wg_repo }} {{ wg_repo_rel }} main"
     filename: wireguard
 
 - name: wireguard | install package
