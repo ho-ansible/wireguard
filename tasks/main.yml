@@ -14,6 +14,7 @@
     src: "{{ item }}.j2"
     dest: "/etc/systemd/network/{{ wg_name }}.{{ item }}"
     mode: 0640
+    user: root
     group: systemd-network
   loop:
     - netdev
