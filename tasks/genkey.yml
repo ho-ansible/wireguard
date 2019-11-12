@@ -36,3 +36,4 @@
     mode: 0640
   loop:
   - wg_keys.yml
+  notify: restart networkd
