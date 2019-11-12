@@ -5,10 +5,10 @@ Name={{ wg_name }}
 Address={{ wg_ip }}
 {{ wg_network_opts | d() }}
 
-{% for peer in q('inventory_hostnames', wg_peers) 
+{% for peer in q('inventory_hostnames', wg_peers)
   if peer != inventory_hostname and hostvars[peer].wg_pubkey is defined %}
-{% for addr in hostvars[peer].wg_routes | d() %}
+{%   for addr in hostvars[peer].wg_routes | d() %}
 [Route]
 Destination={{ addr }}
-{% endfor %}
+{%   endfor %}
 {% endfor %}
