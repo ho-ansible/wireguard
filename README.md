@@ -7,7 +7,8 @@ Only tested on Debian stable, for now.
 ## Role Variables
 + `wg_name` (default: `wg0`): name for the interface
 + `wg_port` (default: 51820): UDP port to listen on
-+ `wg_address` (default: none): public hostname/IP by which others can reach this node
++ `wg_address` (default: `{{ ansible_default_ipv4.address }}`):
+  public hostname/IP by which others can reach this node
 + `wg_ip` (default: `192.168.1.1/24`): IPv4 address and subnet of this host within the VPN
 + `wg_keydir` (default: `{{ inventory_dir }}/host_vars`):
   plaintext passwords will be stored in subdirectories under this path,
