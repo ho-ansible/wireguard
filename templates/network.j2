@@ -11,4 +11,11 @@ Address={{ wg_ip }}
 [Route]
 Destination={{ addr }}
 {%   endfor %}
+
+[RoutingPolicyRule]
+IPProtocol=udp
+DestinationPort={{ wg_port }}
+{% if hostvars[peer].wg_address is defined and hostvars[peer].wg_address | length %}
+From={{ hostvars[peer].wg_address }}
+{% endif %}
 {% endfor %}
