@@ -7,6 +7,7 @@ Address={{ wg_ip }}
 
 {% for peer in q('inventory_hostnames', wg_peers)
   if peer != inventory_hostname and hostvars[peer].wg_pubkey is defined %}
+# {{ peer }}
 {%   for addr in hostvars[peer].wg_routes | d() %}
 [Route]
 Destination={{ addr }}
@@ -18,4 +19,5 @@ DestinationPort={{ wg_port }}
 {% if hostvars[peer].wg_address is defined and hostvars[peer].wg_address | length %}
 From={{ hostvars[peer].wg_address }}
 {% endif %}
+
 {% endfor %}
