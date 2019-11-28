@@ -1,5 +1,6 @@
 # Ansible role: WireGuard
 Point-to-point VPN.
+This role uses the built-in wireguard support in systemd-networkd as of v237.
 
 ## Requirements
 Only tested on Debian stable, for now.
