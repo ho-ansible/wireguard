@@ -18,7 +18,7 @@ AllowedIPs={{ hostvars[peer].wg_ip | ipaddr('address') }}/32
 {% for addr in hostvars[peer].wg_routes | d() %}
 AllowedIPs={{ addr }}
 {% endfor %}
-{% if hostvars[peer].wg_address is defined %}
+{% if hostvars[peer].wg_address is defined and hostvars[peer].wg_address | length %}
 Endpoint={{ hostvars[peer].wg_address }}:{{ hostvars[peer].wg_port }}
 {% endif %}
 {% for key, value in hostvars[peer].wg_client_opts | d() %}

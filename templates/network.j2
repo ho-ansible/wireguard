@@ -12,7 +12,6 @@ Address={{ wg_ip }}
 [Route]
 Destination={{ addr }}
 {%   endfor %}
-
 [RoutingPolicyRule]
 IPProtocol=udp
 DestinationPort={{ wg_port }}
