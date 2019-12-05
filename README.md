@@ -20,6 +20,7 @@ Additional optional role vars:
 + `wg_server_opts`: dict of additional options for `[WireGuard]` section
 + `wg_client_opts`: dict of additional options for this host's
   `[WireGuardPeer]` section on other hosts' config
++ `wg_routes`: list of additional subnets this host can route
 + `wg_network_opts`: additional text for the systemd network file,
   e.g., additional routes
 
