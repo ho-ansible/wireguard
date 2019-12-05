@@ -2,3 +2,5 @@
 
 wg_repo: "http://http.us.debian.org/debian/"
 wg_repo_rel: testing
+
+wg_keyfile: "{{ inventory_dir }}/{{ inventory_hostname }}/wg_keys.yml"

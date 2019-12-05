@@ -24,16 +24,14 @@
   become: false
   local_action:
     module: file
-    path: "{{ wg_keydir }}/{{ inventory_hostname }}"
+    path: "{{ wg_keyfile | dirname }}"
     state: directory
 
 - name: wireguard | genkey | save keys in host_vars
   become: false
   local_action:
     module: template
-    src: "{{ item }}.j2"
-    dest: "{{ wg_keydir }}/{{ inventory_hostname }}/{{ item }}"
+    src: wg_keys.yml.j2
+    dest: "{{ wg_keyfile }}"
     mode: 0640
-  loop:
-  - wg_keys.yml
   notify: restart networkd
