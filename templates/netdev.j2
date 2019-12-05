@@ -3,7 +3,7 @@ Name={{ wg_name }}
 Kind=wireguard
 
 [WireGuard]
-ListenPort={{ wg_port }}
+ListenPort={{ wg_port | d(wg_default_port, true) }}
 PrivateKey={{ wg_privkey }}
 {% for key, value in wg_server_opts | d() %}
 {{ key }}={{ value }}
@@ -18,8 +18,10 @@ AllowedIPs={{ hostvars[peer].wg_ip | ipaddr('address') }}/32
 {% for addr in hostvars[peer].wg_routes | d() %}
 AllowedIPs={{ addr }}
 {% endfor %}
-{% if hostvars[peer].wg_address is defined and hostvars[peer].wg_address | length %}
-Endpoint={{ hostvars[peer].wg_address }}:{{ hostvars[peer].wg_port }}
+{% if hostvars[peer].wg_ext_ip | d() != 'none' %}
+{%   set peer_ip = hostvars[peer].wg_ext_ip | d(hostvars[peer].ansible_default_ipv4.address, true) %}
+{%   set peer_port = hostvars[peer].wg_port | d(wg_default_port, true) %}
+Endpoint={{ peer_ip }}:{{ peer_port }}
 {% endif %}
 {% for key, value in hostvars[peer].wg_client_opts | d() %}
 {{ key }}={{ value }}

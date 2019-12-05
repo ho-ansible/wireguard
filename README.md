@@ -10,11 +10,14 @@ Only tested on Debian stable, for now.
 
 ## Role Variables
 + `wg_name` (default: `wg0`): name for the interface
-+ `wg_port` (default: 51820): UDP port to listen on
-+ `wg_address` (default: none):
-  public hostname/IP by which others can reach this node
 + `wg_ip` (default: `192.168.1.1/24`): IPv4 address and subnet of this host within the VPN
 + `wg_peers` (default: none): inventory host list
++ `wg_port` (default: empty): UDP port to use.  Set to empty to use the standard port 51820.
+  + (This logic is used so that peers can look up the port in host vars.)
++ `wg_ext_ip` (default: empty): public IPv4 address (without subnet).
+  Peers will connect to this IP and create a firewall rule allowing packets from this IP.
+  Set to empty string to use `ansible_default_ipv4.address`.
+  Set to `none` to disable this behavior.
 
 Additional optional role vars:
 + `wg_server_opts`: dict of additional options for `[WireGuard]` section
