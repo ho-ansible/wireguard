@@ -16,7 +16,7 @@ Destination={{ addr }}
 IPProtocol=udp
 DestinationPort={{ wg_port | d(wg_default_port, true) }}
 {% if hostvars[peer].wg_ext_ip | d() != 'none' %}
-{%   set peer_ip = hostvars[peer].wg_ext_ip | d(hostvars[peer].ansible_default_ipv4.address, true) %}
+{%   set peer_ip = hostvars[peer].wg_ext_ip | d(hostvars[peer].ansible_facts.ansible_default_ipv4.address, true) %}
 From={{ peer_ip }}
 {% endif %}
 
