@@ -1,6 +1,7 @@
 ---
 
 - import_tasks: install.yml
+  when: ansible_virtualization_type != 'openvz'
 
 - include_tasks: genkey.yml
   tags:
@@ -20,3 +21,4 @@
     - netdev
     - network
   notify: restart networkd
+  when: ansible_virtualization_type != 'openvz'
