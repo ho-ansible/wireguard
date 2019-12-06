@@ -11,19 +11,22 @@ PrivateKey={{ wg_privkey }}
 
 {% for peer in q('inventory_hostnames', wg_peers) 
   if peer != inventory_hostname and hostvars[peer].wg_pubkey is defined %}
+{%   set hv = hostvars[peer] %}
 # {{ peer }}
 [WireGuardPeer]
-PublicKey={{ hostvars[peer].wg_pubkey }}
-AllowedIPs={{ hostvars[peer].wg_ip | ipaddr('address') }}/32
-{% for addr in hostvars[peer].wg_routes | d() %}
-AllowedIPs={{ addr }}
+PublicKey={{ hv.wg_pubkey }}
+AllowedIPs={{ hv.wg_ip | ipaddr('address') }}/32
+{% for subnet in hv.wg_routes | d() %}
+AllowedIPs={{ subnet }}
 {% endfor %}
-{% if hostvars[peer].wg_ext_ip | d() != 'none' %}
-{%   set peer_ip = hostvars[peer].wg_ext_ip | d(hostvars[peer].ansible_facts.ansible_default_ipv4.address, true) %}
-{%   set peer_port = hostvars[peer].wg_port | d(wg_default_port, true) %}
+{% if (hv.wg_ext_ip | d()) and
+      ( (hv.wg_ext_ip | ipaddr('address')) or
+        (hv.ansible_default_ipv4 is defined) ) %}
+{%   set peer_ip = hv.wg_ext_ip | ipaddr('address') | d(hv.ansible_default_ipv4.address, true) %}
+{%   set peer_port = hv.wg_port | d(wg_default_port, true) %}
 Endpoint={{ peer_ip }}:{{ peer_port }}
 {% endif %}
-{% for key, value in hostvars[peer].wg_client_opts | d() %}
+{% for key, value in hv.wg_client_opts | d() %}
 {{ key }}={{ value }}
 {% endfor %}
 

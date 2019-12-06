@@ -14,10 +14,10 @@ Only tested on Debian stable, for now.
 + `wg_peers` (default: none): inventory host list
 + `wg_port` (default: empty): UDP port to use.  Set to empty to use the standard port 51820.
   + (This logic is used so that peers can look up the port in host vars.)
-+ `wg_ext_ip` (default: empty): public IPv4 address (without subnet).
++ `wg_ext_ip` (default: `default`): public IPv4 address (without subnet).
   Peers will connect to this IP and create a firewall rule allowing packets from this IP.
-  Set to empty string to use `ansible_default_ipv4.address`.
-  Set to `none` to disable this behavior.
+  Set to string `default` to use `ansible_default_ipv4.address`.
+  Set to empty to disable this behavior.
 
 Additional optional role vars:
 + `wg_server_opts`: dict of additional options for `[WireGuard]` section

@@ -7,16 +7,19 @@ Address={{ wg_ip }}
 
 {% for peer in q('inventory_hostnames', wg_peers)
   if peer != inventory_hostname and hostvars[peer].wg_pubkey is defined %}
+{%   set hv = hostvars[peer] %}
 # {{ peer }}
-{%   for addr in hostvars[peer].wg_routes | d() %}
+{%   for subnet in hv.wg_routes | d() %}
 [Route]
-Destination={{ addr }}
+Destination={{ subnet }}
 {%   endfor %}
 [RoutingPolicyRule]
 IPProtocol=udp
 DestinationPort={{ wg_port | d(wg_default_port, true) }}
-{% if hostvars[peer].wg_ext_ip | d() != 'none' %}
-{%   set peer_ip = hostvars[peer].wg_ext_ip | d(hostvars[peer].ansible_facts.ansible_default_ipv4.address, true) %}
+{% if (hv.wg_ext_ip | d()) and
+      ( (hv.wg_ext_ip | ipaddr('address')) or
+        (hv.ansible_default_ipv4 is defined) ) %}
+{%   set peer_ip = hv.wg_ext_ip | ipaddr('address') | d(hv.ansible_default_ipv4.address, true) %}
 From={{ peer_ip }}
 {% endif %}
 
