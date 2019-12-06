@@ -9,7 +9,7 @@ PrivateKey={{ wg_privkey }}
 {{ key }}={{ value }}
 {% endfor %}
 
-{% for peer in q('inventory_hostnames', wg_peers) 
+{% for peer in q('inventory_hostnames', wg_peers) | sort
   if peer != inventory_hostname and hostvars[peer].wg_pubkey is defined %}
 {%   set hv = hostvars[peer] %}
 # {{ peer }}

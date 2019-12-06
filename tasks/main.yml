@@ -4,13 +4,11 @@
   when: ansible_virtualization_type != 'openvz'
 
 - include_tasks: genkey.yml
-  tags:
-  - genkey
-  when: wg_privkey is not defined
+  when: wg_privkey is not defined and ansible_virtualization_type != 'openvz'
 
 - name: wireguard | systemd-networkd config
   tags:
-  - config
+    - config
   template:
     src: "{{ item }}.j2"
     dest: "/etc/systemd/network/{{ wg_name }}.{{ item }}"
@@ -21,4 +19,20 @@
     - netdev
     - network
   notify: restart networkd
+  when: ansible_virtualization_type != 'openvz'
+
+- name: wireguard | wg_iptables unit
+  tags:
+    - config
+  template:
+    src: wg_iptables.service.j2
+    dest: /etc/systemd/system/wg_iptables.service
+  notify: restart networkd
+  when: ansible_virtualization_type != 'openvz'
+
+- name: wireguard | wg_iptables service
+  service:
+    name: wg_iptables
+    state: started
+    enabled: yes
   when: ansible_virtualization_type != 'openvz'
