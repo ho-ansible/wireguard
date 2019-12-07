@@ -29,6 +29,7 @@ Additional optional role vars:
 
 ## Dependencies
 + ho-ansible.systemd-networkd
++ ho-ansible.iptables
 
 ## Example Playbook
 
