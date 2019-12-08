@@ -19,11 +19,14 @@ AllowedIPs={{ hv.wg_ip | ipaddr('address') }}/32
 {% for subnet in hv.wg_routes | d() %}
 AllowedIPs={{ subnet }}
 {% endfor %}
-{% if (hv.wg_ext_ip | d()) and
-      ( (hv.wg_ext_ip | ipaddr('address')) or
-        (hv.ansible_default_ipv4 is defined) ) %}
-{%   set peer_ip = hv.wg_ext_ip | ipaddr('address') | d(hv.ansible_default_ipv4.address, true) %}
-{%   set peer_port = hv.wg_port | d(wg_default_port, true) %}
+{% set peer_port = hv.wg_port | d(wg_default_port, true) %}
+{% if hv.wg_ext_ip | d() %}
+{%   set peer_ip = hv.wg_ext_ip | ipaddr('address') %}
+{%   if hv.ansible_default_ipv4 is defined %}
+{%     set peer_ip = peer_ip | d(hv.ansible_default_ipv4.address, true) %}
+{%   endif %}
+{% endif %}
+{% if peer_ip | d() %}
 Endpoint={{ peer_ip }}:{{ peer_port }}
 {% endif %}
 {% for key, value in hv.wg_client_opts | d() %}

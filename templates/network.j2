@@ -6,12 +6,12 @@ Address={{ wg_ip }}
 
 {{ wg_network_opts | d() }}
 
-{% for subnet in hostvars |
-     select('in', q('inventory_hostnames', wg_peers)) |
-     reject('equalto', inventory_hostname) |
-     selectattr('wg_routes', 'defined') |
-     map(attribute='wg_routes') |
-     sort %}
+{% set routes = [] %}
+{% for peer in q('inventory_hostnames', wg_peers) | sort
+  if peer != inventory_hostname and hostvars[peer].wg_routes is defined %}
+{%   set routes = routes.append(hostvars[peer].wg_routes) %}
+{% endfor %}
+{% for subnet in routes | flatten | sort %}
 [Route]
 Destination={{ subnet }}
 
