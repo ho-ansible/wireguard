@@ -24,7 +24,7 @@
   loop:
     - src: netdev
       dst: "/etc/systemd/network/{{ wg_name }}.netdev"
-      mode: 0640
+      mode: '0640'
     - src: network
       dst: "/etc/systemd/network/{{ wg_name }}.network"
     - src: dropin.conf
