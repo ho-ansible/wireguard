@@ -5,9 +5,11 @@ Kind=wireguard
 [WireGuard]
 ListenPort={{ wg_port | d(wg_default_port, true) }}
 PrivateKey={{ wg_privkey }}
-{% for key, value in wg_server_opts | d() %}
+{% if wg_server_opts is defined %}
+{%   for key, value in wg_server_opts.items() %}
 {{ key }}={{ value }}
-{% endfor %}
+{%   endfor %}
+{% endif %}
 
 {% for peer in q('inventory_hostnames', wg_peers) | sort
   if peer != inventory_hostname and hostvars[peer].wg_pubkey is defined %}
@@ -29,8 +31,10 @@ AllowedIPs={{ subnet }}
 {% if peer_ip | d() %}
 Endpoint={{ peer_ip }}:{{ peer_port }}
 {% endif %}
-{% for key, value in hv.wg_client_opts | d() %}
+{% if hv.wg_client_opts is defined %}
+{%   for key, value in hv.wg_client_opts.items() %}
 {{ key }}={{ value }}
-{% endfor %}
+{%   endfor %}
+{% endif %}
 
 {% endfor %}
