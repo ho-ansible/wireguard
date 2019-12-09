@@ -20,16 +20,16 @@
 
 [Service]
 # Prepare iptables chain {{ ch }}: create, flush, ref from INPUT
-ExecStartPre=-{{ ipt }} -N {{ ch }}
-ExecStartPre={{ ipt }} -F {{ ch }}
-ExecStartPre=-{{ ipt }} -D INPUT {{ in_rule }}
-ExecStartPre={{ ipt }} -A INPUT {{ in_rule }}
+ExecStartPre=!-{{ ipt }} -N {{ ch }}
+ExecStartPre=!{{ ipt }} -F {{ ch }}
+ExecStartPre=!-{{ ipt }} -D INPUT {{ in_rule }}
+ExecStartPre=!{{ ipt }} -A INPUT {{ in_rule }}
 # Populate chain {{ ch }}
 {% for ip, port in spec_list | sort | unique | reverse %}
 {%   set ip = '-s ' ~ ip if ip | length else '' %}
-ExecStartPre={{ ipt }} -A {{ ch }} {{ ip }} -p udp --sport {{ port }} -j ACCEPT
+ExecStartPre=!{{ ipt }} -A {{ ch }} {{ ip }} -p udp --sport {{ port }} -j ACCEPT
 {% endfor %}
 # Cleanup: unref, flush, delete
-ExecStopPost=-{{ ipt }} -D INPUT {{ in_rule }}
-ExecStopPost=-{{ ipt }} -F {{ ch }}
-ExecStopPost=-{{ ipt }} -X {{ ch }}
+ExecStopPost=!-{{ ipt }} -D INPUT {{ in_rule }}
+ExecStopPost=!-{{ ipt }} -F {{ ch }}
+ExecStopPost=!-{{ ipt }} -X {{ ch }}
