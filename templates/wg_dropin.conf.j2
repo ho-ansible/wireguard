@@ -22,6 +22,7 @@
 # Prepare iptables chain {{ ch }}: create, flush, ref from INPUT
 ExecStartPre=-{{ ipt }} -N {{ ch }}
 ExecStartPre={{ ipt }} -F {{ ch }}
+ExecStartPre=-{{ ipt }} -D INPUT {{ in_rule }}
 ExecStartPre={{ ipt }} -A INPUT {{ in_rule }}
 # Populate chain {{ ch }}
 {% for ip, port in spec_list | sort | unique | reverse %}
