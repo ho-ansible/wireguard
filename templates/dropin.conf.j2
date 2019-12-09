@@ -1,5 +1,7 @@
 # {{ ansible_managed }}
-{# Accumulate list of firewall rules #}
+# Firewall rules for wireguard VPN {{ wg_name }}
+
+{#- Accumulate list of firewall rules #}
 {% set spec_list = [] %}
 {% for peer in q('inventory_hostnames', wg_peers) | sort
   if peer != inventory_hostname and hostvars[peer].wg_pubkey is defined %}
@@ -13,7 +15,8 @@
 {%   endif %}
 {%   set spec_list = spec_list.append((peer_ip | d(), peer_port)) %}
 {% endfor %}
-{# Macros #}
+
+{#- Macros #}
 {% set ipt = '/usr/sbin/iptables' %}
 {% set ch = 'in_' ~ wg_name %}
 {% set in_rule = '-p udp --dport ' ~ (wg_port | d(wg_default_port, true)) ~ ' -j ' ~ ch %}
@@ -24,11 +27,16 @@ ExecStartPre=!-{{ ipt }} -N {{ ch }}
 ExecStartPre=!{{ ipt }} -F {{ ch }}
 ExecStartPre=!-{{ ipt }} -D INPUT {{ in_rule }}
 ExecStartPre=!{{ ipt }} -A INPUT {{ in_rule }}
+
 # Populate chain {{ ch }}
-{% for ip, port in spec_list | sort | unique | reverse %}
-{%   set ip = '-s ' ~ ip if ip | length else '' %}
-ExecStartPre=!{{ ipt }} -A {{ ch }} {{ ip }} -p udp --sport {{ port }} -j ACCEPT
+{% for ip, port in (spec_list | unique) if (ip | length) %}
+ExecStartPre=!{{ ipt }} -A {{ ch }} -s {{ ip }} -p udp --sport {{ port }} -j ACCEPT
 {% endfor %}
+{% if None in map(spec_list, first) %}
+# Allow from any client
+ExecStartPre=!{{ ipt }} -A {{ ch }} -j ACCEPT
+{% endif %}
+
 # Cleanup: unref, flush, delete
 ExecStopPost=!-{{ ipt }} -D INPUT {{ in_rule }}
 ExecStopPost=!-{{ ipt }} -F {{ ch }}
