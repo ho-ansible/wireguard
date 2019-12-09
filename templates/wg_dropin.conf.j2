@@ -1,12 +1,4 @@
 # {{ ansible_managed }}
-[Unit]
-Description=Firewall rules for wireguard
-BindsTo=systemd-networkd.service
-After=systemd-networkd.service
-
-[Service]
-Type=oneshot
-RemainAfterExit=yes
 {# Accumulate list of firewall rules #}
 {% set spec_list = [] %}
 {% for peer in q('inventory_hostnames', wg_peers) | sort
@@ -21,12 +13,22 @@ RemainAfterExit=yes
 {%   endif %}
 {%   set spec_list = spec_list.append((peer_ip | d(), peer_port)) %}
 {% endfor %}
-{# Deploy firewall rules #}
-{% for ip, port in spec_list | unique %}
-{%   set ip = '-s ' ~ ip if ip | length else '' %}
-ExecStart=/usr/sbin/iptables -A INPUT {{ ip }} -p udp --dport {{ port }} -j ACCEPT
-ExecStop= /usr/sbin/iptables -D INPUT {{ ip }} -p udp --dport {{ port }} -j ACCEPT
-{% endfor %}
+{# Macros #}
+{% set ipt = '/usr/sbin/iptables' %}
+{% set ch = 'in_' ~ wg_name %}
+{% set in_rule = '-p udp --dport ' ~ (wg_port | d(wg_default_port, true)) ~ ' -j ' ~ ch %}
 
-[Install]
-WantedBy=network-online.target
+[Service]
+# Prepare iptables chain {{ ch }}: create, flush, ref from INPUT
+ExecStartPre=-{{ ipt }} -N {{ ch }}
+ExecStartPre={{ ipt }} -F {{ ch }}
+ExecStartPre={{ ipt }} -A INPUT {{ in_rule }}
+# Populate chain {{ ch }}
+{% for ip, port in spec_list | sort | unique | reverse %}
+{%   set ip = '-s ' ~ ip if ip | length else '' %}
+ExecStartPre={{ ipt }} -A {{ ch }} {{ ip }} -p udp --sport {{ port }} -j ACCEPT
+{% endfor %}
+# Cleanup: unref, flush, delete
+ExecStopPost=-{{ ipt }} -D INPUT {{ in_rule }}
+ExecStopPost=-{{ ipt }} -F {{ ch }}
+ExecStopPost=-{{ ipt }} -X {{ ch }}
