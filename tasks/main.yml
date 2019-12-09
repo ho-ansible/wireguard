@@ -6,33 +6,29 @@
 - include_tasks: genkey.yml
   when: wg_privkey is not defined and ansible_virtualization_type != 'openvz'
 
-- name: wireguard | systemd-networkd config
-  tags:
-    - config
-  template:
-    src: "{{ item }}.j2"
-    dest: "/etc/systemd/network/{{ wg_name }}.{{ item }}"
-    mode: 0640
-    owner: root
-    group: systemd-network
-  loop:
-    - netdev
-    - network
-  notify: restart networkd
-  when: ansible_virtualization_type != 'openvz'
-
 - name: wireguard | systemd-networkd drop-in dir
   file:
     path: "{{ wg_dropin | dirname }}"
     state: directory
   when: ansible_virtualization_type != 'openvz'
 
-- name: wireguard | systemd-networkd drop-in
+- name: wireguard | systemd-networkd config
   tags:
     - config
   template:
-    src: wg_dropin.conf.j2
-    dest: "{{ wg_dropin }}"
+    src: "{{ item.src }}.j2"
+    dest: "{{ item.dst }}"
+    mode: "{{ item.mode | d(0644) }}"
+    owner: root
+    group: systemd-networkd
+  loop:
+    - src: netdev
+      dst: "/etc/systemd/network/{{ wg_name }}.netdev"
+      mode: 0640
+    - src: network
+      dst: "/etc/systemd/network/{{ wg_name }}.network"
+    - src: dropin.conf
+      dst: "{{ wg_dropin }}"
   notify: restart networkd
   when: ansible_virtualization_type != 'openvz'
 
