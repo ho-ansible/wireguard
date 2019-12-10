@@ -28,18 +28,10 @@ Additional optional role vars:
 + `wg_network_opts`: additional text for the systemd network file, in ini format
 
 ## Dependencies
-+ ho-ansible.systemd-networkd
-
-## Example Playbook
-
-```
-- hosts: all
-  roles:
-    - { role: ho-ansible.wireguard }
-```
++ [ho-ansible.systemd-networkd](https://github.com/ho-ansible/systemd-networkd)
 
 ## License
-MIT
+Ansible role licensed [MIT](LICENSE)
 
 ## Author Information
 + Ansible role: Sean Ho, https://github.com/ho-ansible/

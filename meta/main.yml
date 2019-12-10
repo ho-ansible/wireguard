@@ -16,4 +16,4 @@ galaxy_info:
     - template
 
 dependencies:
-- systemd-networkd
+  - role: systemd-networkd
