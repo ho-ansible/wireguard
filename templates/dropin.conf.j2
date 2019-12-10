@@ -31,10 +31,9 @@ ExecStartPre=!{{ ipt }} -A INPUT {{ in_rule }}
 
 # Populate chain {{ ch }}
 {% if '' in spec_list | map('first') %}
-# Allow from any client
 ExecStartPre=!{{ ipt }} -A {{ ch }} -j ACCEPT
 {% else %}
-{%   for ip, port in (spec_list | unique) if ip %}
+{%   for ip, port in spec_list | unique %}
 ExecStartPre=!{{ ipt }} -A {{ ch }} -s {{ ip }} -p udp --sport {{ port }} -j ACCEPT
 {%   endfor %}
 {% endif %}
