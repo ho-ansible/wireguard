@@ -9,7 +9,7 @@
 {%   set peer_port = hv.wg_port | d(wg_default_port, true) %}
 {%   set peer_ip = '' %}
 {%   if hv.wg_ext_ip | d() %}
-{%     set peer_ip = hv.wg_ext_ip | ipaddr('address') | d() %}
+{%     set peer_ip = hv.wg_ext_ip | ipaddr('address') | d('', true) %}
 {%     if hv.ansible_default_ipv4 is defined %}
 {%       set peer_ip = peer_ip | d(hv.ansible_default_ipv4.address, true) %}
 {%     endif %}
@@ -31,9 +31,10 @@ ExecStartPre=!{{ ipt }} -A INPUT {{ in_rule }}
 
 # Populate chain {{ ch }}
 {% if '' in spec_list | map('first') %}
+# Allow from any client
 ExecStartPre=!{{ ipt }} -A {{ ch }} -j ACCEPT
 {% else %}
-{%   for ip, port in spec_list | unique %}
+{%   for ip, port in (spec_list | unique) if ip %}
 ExecStartPre=!{{ ipt }} -A {{ ch }} -s {{ ip }} -p udp --sport {{ port }} -j ACCEPT
 {%   endfor %}
 {% endif %}
