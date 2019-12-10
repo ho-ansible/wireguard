@@ -27,7 +27,7 @@
       mode: '0640'
     - src: network
       dst: "/etc/systemd/network/{{ wg_name }}.network"
-    - src: dropin.conf
+    - src: networkd.conf
       dst: "{{ wg_dropin }}"
   notify: restart networkd
   when: ansible_virtualization_type != 'openvz'
