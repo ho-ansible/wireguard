@@ -5,10 +5,8 @@ Kind=wireguard
 [WireGuard]
 ListenPort={{ wg_port | d(wg_default_port, true) }}
 PrivateKey={{ wg_privkey }}
-{% if wg_server_opts is defined %}
-{%   for key, value in wg_server_opts.items() %}
-{{ key }}={{ value }}
-{%   endfor %}
+{% if wg_fwmark is defined %}
+FwMark={{ wg_fwmark }}
 {% endif %}
 
 {% for peer in q('inventory_hostnames', wg_peers) | sort
@@ -20,7 +18,8 @@ PublicKey={{ hv.wg_pubkey }}
 AllowedIPs={{ hv.wg_ip | ipaddr('address') }}/32
 {% for subnet in hv.wg_routes | d() %}
 AllowedIPs={{ subnet }}
-{% endfor %}
+{% endfor -%}
+
 {% set peer_port = hv.wg_port | d(wg_default_port, true) %}
 {% if hv.wg_ext_ip | d() %}
 {%   set peer_ip = hv.wg_ext_ip | ipaddr('address') %}
@@ -30,11 +29,14 @@ AllowedIPs={{ subnet }}
 {% endif %}
 {% if peer_ip | d() %}
 Endpoint={{ peer_ip }}:{{ peer_port }}
-{% endif %}
-{% if hv.wg_client_opts is defined %}
-{%   for key, value in hv.wg_client_opts.items() %}
-{{ key }}={{ value }}
-{%   endfor %}
+{% endif -%}
+
+{% if hv.wg_psk is defined %}
+PresharedKey={{ hv.wg_psk }}
+{% endif -%}
+
+{% if hv.keepalive is defined %}
+PersistentKeepalive={{ hv.keepalive }}
 {% endif %}
 
 {% endfor %}
