@@ -15,28 +15,25 @@ FwMark={{ wg_fwmark }}
 # {{ peer }}
 [WireGuardPeer]
 PublicKey={{ hv.wg_pubkey }}
-AllowedIPs={{ hv.wg_ip | ipaddr('address') }}/32
-{% for subnet in hv.wg_routes | d() %}
+AllowedIPs={{ hv.wg_ip | ipaddr('address') | ipaddr('host') }}
+{%   for subnet in hv.wg_routes | d() %}
 AllowedIPs={{ subnet }}
-{% endfor -%}
-
-{% set peer_port = hv.wg_port | d(wg_default_port, true) %}
-{% if hv.wg_ext_ip | d() %}
-{%   set peer_ip = hv.wg_ext_ip | ipaddr('address') %}
-{%   if hv.ansible_default_ipv4 is defined %}
-{%     set peer_ip = peer_ip | d(hv.ansible_default_ipv4.address, true) %}
+{%   endfor %}
+{%   if hv.wg_ext_ip | d() %}
+{%     set peer_ip = hv.wg_ext_ip | ipaddr() %}
+{%     if hv.ansible_default_ipv4 is defined %}
+{%       set peer_ip = peer_ip | d(hv.ansible_default_ipv4.address, true) %}
+{%     endif %}
 {%   endif %}
-{% endif %}
-{% if peer_ip | d() %}
+{%   set peer_port = hv.wg_port | d(wg_default_port, true) %}
+{%   if peer_ip | d() %}
 Endpoint={{ peer_ip }}:{{ peer_port }}
-{% endif -%}
-
-{% if hv.wg_psk is defined %}
+{%   endif %}
+{%   if hv.wg_psk is defined %}
 PresharedKey={{ hv.wg_psk }}
-{% endif -%}
-
-{% if hv.keepalive is defined %}
-PersistentKeepalive={{ hv.keepalive }}
-{% endif %}
+{%   endif %}
+{%   if wg_keepalive is defined %}{# host, not peer #}
+PersistentKeepalive={{ wg_keepalive }}
+{%   endif %}
 
 {% endfor %}
