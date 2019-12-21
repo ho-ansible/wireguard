@@ -3,6 +3,12 @@ Name={{ wg_name }}
 
 [Network]
 Address={{ wg_ip }}
+{% for dns in wg_dns | d() %}
+DNS={{ dns }}
+{% endfor %}
+{% for domain in wg_domains | d() %}
+Domains={{ domain }}
+{% endfor %}
 
 {{ wg_network_opts | d() }}
 

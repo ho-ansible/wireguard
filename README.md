@@ -29,6 +29,9 @@ Optional role vars for `[WireguardPeer]` section of netdev:
   If this variable is set, the option will be enabled for all peers from this host.
 
 Optional role vars for systemd network file:
++ `wg_dns`: list of DNS servers
++ `wg_domains`: list of domains using above DNS servers, optionally prefixed with `~`.
+  See systemd.network(5).
 + `wg_routes`: list of additional subnets this host can route.
   This affects both netdev and network files.
 + `wg_network_opts`: additional text for the systemd network file, in ini format
@@ -36,6 +39,7 @@ Optional role vars for systemd network file:
 
 ## Dependencies
 + [ho-ansible.systemd-networkd](https://github.com/ho-ansible/systemd-networkd)
++ [ho-ansible.systemd-resolved](https://github.com/ho-ansible/systemd-resolved)
 
 ## License
 Ansible role licensed [MIT](LICENSE)

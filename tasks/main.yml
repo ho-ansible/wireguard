@@ -32,5 +32,6 @@
   notify:
     - daemon-reload
     - restart networkd
+    - restart resolved
   when: ansible_virtualization_type != 'openvz'
 
