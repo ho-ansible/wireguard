@@ -4,3 +4,6 @@ wg_name: wg
 wg_ip: "192.168.1.1/24"
 wg_peers:
 wg_ext_ip: default
+
+wg_repo: "http://http.us.debian.org/debian/"
+wg_repo_rel: testing

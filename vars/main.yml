@@ -1,8 +1,5 @@
 ---
 
-wg_repo: "http://http.us.debian.org/debian/"
-wg_repo_rel: testing
-
 wg_default_port: 51820
 
 wg_keyfile: "{{ inventory_dir }}/host_vars/{{ inventory_hostname }}/wg_keys.yml"
