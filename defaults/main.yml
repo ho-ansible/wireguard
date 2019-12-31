@@ -7,3 +7,4 @@ wg_ext_ip: default
 
 wg_repo: "http://http.us.debian.org/debian/"
 wg_repo_rel: testing
+wg_arch: "{{ ansible_kernel | regex_replace('^.*-') }}"

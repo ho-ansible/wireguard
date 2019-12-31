@@ -40,6 +40,7 @@ Optional role vars for systemd network file:
 Optional role vars for installing wireguard:
 + `wg_repo` (default: `http://http.us.debian.org/debian/`): debian repository
 + `wg_repo_rel` (default: `testing`): release for above repo
++ `wg_arch` (default: from kernel): architecture of kernel headers to install
 
 ## Dependencies
 + [ho-ansible.systemd-networkd](https://github.com/ho-ansible/systemd-networkd)
