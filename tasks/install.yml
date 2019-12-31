@@ -20,8 +20,7 @@
   tags:
   - package
   package:
-    name: "{{ item }}"
-  loop:
-  - "linux-headers-{{ ansible_kernel | regex_replace('^.*-') }}"
-  - wireguard
+    name:
+      - "linux-headers-{{ ansible_kernel | regex_replace('^.*-') }}"
+      - wireguard
   notify: restart networkd
