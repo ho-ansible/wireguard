@@ -21,6 +21,6 @@
   - package
   package:
     name:
-      - "linux-headers-{{ wg_arch }}"
+      - "linux-headers-{{ ansible_kernel | regex_replace('^linux-headers-') }}"
       - wireguard
   notify: restart networkd
