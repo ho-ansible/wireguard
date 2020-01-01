@@ -9,6 +9,11 @@
   loop:
   - limit-repo
 
+- name: wireguard | add repo key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: "{{ wg_aptkey }}"
+
 - name: wireguard | add repo
   tags:
   - apt
