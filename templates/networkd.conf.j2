@@ -43,7 +43,7 @@ ExecStopPost=!-{{ ipt }} -D INPUT {{ in_rule }}
 ExecStopPost=!-{{ ipt }} -F {{ ch }}
 ExecStopPost=!-{{ ipt }} -X {{ ch }}
 
-{#- Additional custom rules #}
+{# Additional custom rules #}
 {% for rule in wg_extra_iptables %}
 ExecStartPre=!-{{ ipt }} -A {{ rule }}
 ExecStopPost=!-{{ ipt }} -D {{ rule }}
