@@ -37,6 +37,9 @@ Optional role vars for systemd network file:
 + `wg_network_opts`: additional text for the systemd network file, in ini format
   with newlines
 
+Optional role vars for systemd-networkd service:
++ `wg_extra_iptables`: additional firewall rules
+
 Optional role vars for installing wireguard:
 + `wg_repo` (default: `http://http.us.debian.org/debian/`): debian repository
 + `wg_repo_rel` (default: `testing`): release for above repo
