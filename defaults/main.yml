@@ -8,4 +8,4 @@ wg_ext_ip: default
 wg_extra_iptables: []
 
 wg_repo: "http://http.us.debian.org/debian/"
-wg_repo_rel: testing
+wg_repo_rel: bullseye
