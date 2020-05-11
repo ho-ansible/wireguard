@@ -1,14 +1,5 @@
 ---
 
-- name: wireguard | set apt repo preferences
-  tags:
-  - apt
-  template:
-    src: "{{ item }}.j2"
-    dest: "/etc/apt/preferences.d/{{ item }}"
-  loop:
-  - limit-repo
-
 - name: wireguard | add repo key
   apt_key:
     keyserver: keyserver.ubuntu.com
