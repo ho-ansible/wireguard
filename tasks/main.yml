@@ -1,16 +1,14 @@
 ---
 
 - import_tasks: install.yml
-  when: ansible_virtualization_type != 'openvz'
 
 - include_tasks: genkey.yml
-  when: wg_privkey is not defined and ansible_virtualization_type != 'openvz'
+  when: wg_privkey is not defined
 
 - name: wireguard | systemd-networkd drop-in dir
   file:
     path: "{{ wg_dropin | dirname }}"
     state: directory
-  when: ansible_virtualization_type != 'openvz'
 
 - name: wireguard | systemd-networkd config
   tags:
@@ -33,5 +31,4 @@
     - daemon-reload
     - restart networkd
     - restart resolved
-  when: ansible_virtualization_type != 'openvz'
 
