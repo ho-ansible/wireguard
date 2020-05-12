@@ -1,6 +1,21 @@
 ---
 
-- import_tasks: install.yml
+- name: "wireguard | add repo {{ wg_repo_rel }}"
+  tags:
+  - apt
+  apt_repository:
+    repo: "deb {{ wg_repo }} {{ wg_repo_rel }} main"
+    filename: wireguard
+
+- name: wireguard | install packages
+  tags:
+  - package
+  package:
+    name:
+      - "linux-headers-{{ ansible_kernel }}"
+      - bc
+      - wireguard
+  notify: restart networkd
 
 - include_tasks: genkey.yml
   when: wg_privkey is not defined
