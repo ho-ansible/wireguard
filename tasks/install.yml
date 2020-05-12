@@ -12,7 +12,7 @@
   - package
   package:
     name:
-      - "linux-headers-{{ ansible_kernel | regex_replace('^linux-headers-') }}"
+      - "linux-headers-{{ ansible_kernel }}"
       - bc
       - wireguard
   notify: restart networkd
