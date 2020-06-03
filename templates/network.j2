@@ -19,7 +19,8 @@ MulticastDNS=yes
      map('extract', hostvars, 'wg_routes') | 
      flatten |
      ipaddr() |
-     sort %}
+     sort |
+     unique %}
 [Route]
 Destination={{ subnet }}
 
