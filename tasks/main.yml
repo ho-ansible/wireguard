@@ -40,7 +40,7 @@
       mode: '0640'
     - src: network
       dst: "/etc/systemd/network/{{ wg_name }}.network"
-    - src: networkd.conf
+    - src: systemd-networkd.conf
       dst: "{{ wg_dropin }}"
   notify:
     - daemon-reload
