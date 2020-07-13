@@ -20,7 +20,8 @@ MulticastDNS=yes
      flatten |
      ipaddr() |
      sort |
-     unique %}
+     unique |
+     reject('equalto', wg_ip | ipaddr('subnet')) %}
 [Route]
 Destination={{ subnet }}
 
