@@ -40,7 +40,7 @@
       mode: '0640'
     - src: network
       dst: "/etc/systemd/network/{{ wg_name }}.network"
-    - src: systemd-networkd.conf
+    - src: iptables.conf
       dst: "{{ wg_dropin }}"
   notify:
     - daemon-reload
