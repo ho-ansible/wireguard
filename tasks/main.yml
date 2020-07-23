@@ -31,7 +31,7 @@
   template:
     src: "{{ item.src }}.j2"
     dest: "{{ item.dst }}"
-    mode: "{{ item.mode | d(0644) }}"
+    mode: "{{ item.mode | d(omit) }}"
     owner: root
     group: systemd-network
   loop:
