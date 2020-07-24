@@ -19,6 +19,8 @@ OpenVZ support is a to-do item.
   Peers will connect to this IP and create a firewall rule allowing packets from this IP.
   Set to string `default` to use `ansible_default_ipv4.address`.
   Set to empty string disable this behavior.
++ `wg_routes`: list of additional subnets this host can route as gateway (`AllowedIPs`).
+  Also affects routing in systemd network config.
 
 Optional role vars for `[Wireguard]` section of netdev:
 + `wg_fwmark`: firewall mark to set on outgoing packets
@@ -32,8 +34,6 @@ Optional role vars for systemd network file:
 + `wg_dns`: list of DNS servers
 + `wg_domains`: list of domains using above DNS servers, optionally prefixed with `~`.
   See systemd.network(5).
-+ `wg_routes`: list of additional subnets this host can route.
-  This affects both netdev and network files.
 + `wg_network_opts`: additional text for the systemd network file, in ini format
   with newlines
 
