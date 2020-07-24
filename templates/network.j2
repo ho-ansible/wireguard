@@ -14,15 +14,14 @@ MulticastDNS=yes
 
 {{ wg_network_opts | d() }}
 
-{% for subnet in q('inventory_hostnames', wg_peers) | 
-     reject('equalto', inventory_hostname) |
-     map('extract', hostvars, 'wg_routes') | 
-     flatten |
-     ipaddr() |
-     sort |
-     unique |
-     reject('equalto', wg_ip | ipaddr('subnet')) %}
+{% for peer in q('inventory_hostnames', wg_peers) | 
+     reject('equalto', inventory_hostname) %}
+{%   for subnet in hostvars[peer]['wg_routes'] | d() |
+     reject('equalto', wg_subnet) %}
 [Route]
 Destination={{ subnet }}
+Metric=1024
+Gateway={{ hostvars[peer]['wg_ip'] | ipaddr('address') }}
 
+{%   endfor %}
 {% endfor %}
