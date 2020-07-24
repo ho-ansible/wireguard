@@ -9,8 +9,6 @@ DNS={{ dns }}
 {% for domain in wg_domains | d() %}
 Domains={{ domain }}
 {% endfor %}
-LLMNR=yes
-MulticastDNS=yes
 
 {{ wg_network_opts | d() }}
 
