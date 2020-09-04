@@ -21,6 +21,7 @@ OpenVZ support is a to-do item.
   Set to empty string disable this behavior.
 + `wg_routes`: list of additional subnets this host can route as gateway (`AllowedIPs`).
   Also affects routing in systemd network config.
+  These routes will be added with high metric (hard-coded at 1024).
 
 Optional role vars for `[Wireguard]` section of netdev:
 + `wg_fwmark`: firewall mark to set on outgoing packets
