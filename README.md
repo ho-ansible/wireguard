@@ -46,6 +46,10 @@ Optional role vars for installing wireguard:
 + `wg_repo_rel` (default: `bullseye`): release for above repo.
   This needs to be a name (buster, bullseye), rather than an alias (stable, testing).
 
+## Playbooks
++ `main.yml`: installs/configures wireguard
++ `uninstall.yml`: uninstalls wireguard.  Run this before removing wg config from inventory.
+
 ## Dependencies
 + [ho-ansible.systemd-networkd](https://github.com/ho-ansible/systemd-networkd)
 + [ho-ansible.systemd-resolved](https://github.com/ho-ansible/systemd-resolved)

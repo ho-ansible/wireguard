@@ -1,0 +1,9 @@
+#! /usr/bin/env ansible-playbook
+# Uninstall wireguard VPN
+---
+- name: wireguard | uninstall
+  hosts: all
+  tasks:
+    - include_role:
+        name: wireguard
+        tasks_from: uninstall.yml

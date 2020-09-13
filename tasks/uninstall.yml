@@ -1,0 +1,35 @@
+---
+- name: wireguard | remove config
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "{{ wg_dropin | dirname }}"
+    - "/etc/systemd/network/{{ wg_name }}.netdev"
+    - "/etc/systemd/network/{{ wg_name }}.network"
+  notify:
+    - daemon-reload
+    - restart networkd
+
+#TODO: tear down iptables rules as in systemd ExecStopPost
+
+- name: wireguard | remove interface
+  command: ip link del dev {{ wg_name | quote }}
+  ignore_errors: yes
+
+- name: wireguard | uninstall package
+  package:
+    name: wireguard
+    state: absent
+
+- name: wireguard | apt autoremove
+  apt:
+    autoremove: yes
+  ignore_errors: yes
+
+- name: wireguard | remove apt repo
+  apt_repository:
+    repo: "deb {{ wg_repo }} {{ wg_repo_rel }} main"
+    filename: wireguard
+    state: absent
+
