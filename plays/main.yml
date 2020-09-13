@@ -1,0 +1,9 @@
+#! /usr/bin/env ansible-playbook
+# Install wireguard VPN
+---
+- name: wireguard | VPN nodes
+  hosts: all
+  roles:
+    - role: wireguard
+      when: ansible_virtualization_type != 'openvz'
+
