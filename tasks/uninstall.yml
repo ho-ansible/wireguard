@@ -4,7 +4,7 @@
     path: "{{ item }}"
     state: absent
   loop:
-    - "{{ wg_dropin | dirname }}"
+    - "{{ wg_iptables_conf | dirname }}"
     - "/etc/systemd/network/{{ wg_name }}.netdev"
     - "/etc/systemd/network/{{ wg_name }}.network"
   notify:

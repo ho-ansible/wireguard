@@ -3,4 +3,4 @@
 wg_default_port: 51820
 
 wg_keyfile: "{{ inventory_dir }}/host_vars/{{ inventory_hostname }}/wg_keys.yml"
-wg_dropin: "/etc/systemd/system/systemd-networkd.service.d/{{ wg_name }}.conf"
+wg_iptables_conf: "/etc/systemd/system/systemd-networkd.service.d/{{ wg_name }}.conf"
