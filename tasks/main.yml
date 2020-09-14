@@ -12,9 +12,9 @@
   - package
   package:
     name:
-      - "linux-headers-{{ ansible_kernel }}"
-      - bc
-      - wireguard
+    - "linux-headers-{{ ansible_kernel }}"
+    - bc
+    - wireguard
   notify: restart networkd
 
 - include_tasks: genkey.yml
@@ -27,22 +27,22 @@
 
 - name: wireguard | systemd-networkd config
   tags:
-    - config
+  - config
   template:
     src: "{{ item.src }}.j2"
     dest: "{{ item.dst }}"
     mode: "{{ item.mode | d(omit) }}"
     group: systemd-network
   loop:
-    - src: netdev
-      dst: "/etc/systemd/network/{{ wg_name }}.netdev"
-      mode: '0640'
-    - src: network
-      dst: "/etc/systemd/network/{{ wg_name }}.network"
-    - src: iptables.conf
-      dst: "{{ wg_iptables_conf }}"
+  - src: netdev
+    dst: "/etc/systemd/network/{{ wg_name }}.netdev"
+    mode: '0640'
+  - src: network
+    dst: "/etc/systemd/network/{{ wg_name }}.network"
+  - src: iptables.conf
+    dst: "{{ wg_iptables_conf }}"
   notify:
-    - daemon-reload
-    - restart networkd
-    - restart resolved
+  - daemon-reload
+  - restart networkd
+  - restart resolved
 

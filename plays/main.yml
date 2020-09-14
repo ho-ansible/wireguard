@@ -5,6 +5,6 @@
 - name: wireguard | VPN nodes
   hosts: wg
   roles:
-    - role: wireguard
-      when: ansible_virtualization_type != 'openvz'
+  - role: wireguard
+    when: ansible_virtualization_type != 'openvz'
 

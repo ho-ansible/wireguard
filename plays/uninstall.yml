@@ -5,6 +5,6 @@
 - name: wireguard | uninstall
   hosts: wg
   tasks:
-    - include_role:
-        name: wireguard
-        tasks_from: uninstall.yml
+  - include_role:
+      name: wireguard
+      tasks_from: uninstall.yml

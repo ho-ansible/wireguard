@@ -4,12 +4,12 @@
     path: "{{ item }}"
     state: absent
   loop:
-    - "{{ wg_iptables_conf | dirname }}"
-    - "/etc/systemd/network/{{ wg_name }}.netdev"
-    - "/etc/systemd/network/{{ wg_name }}.network"
+  - "{{ wg_iptables_conf | dirname }}"
+  - "/etc/systemd/network/{{ wg_name }}.netdev"
+  - "/etc/systemd/network/{{ wg_name }}.network"
   notify:
-    - daemon-reload
-    - restart networkd
+  - daemon-reload
+  - restart networkd
 
 #TODO: tear down iptables rules as in systemd ExecStopPost
 
