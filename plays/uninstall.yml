@@ -1,8 +1,9 @@
 #! /usr/bin/env ansible-playbook
 # Uninstall wireguard VPN
+# Replace 'wg' with your own inventory group
 ---
 - name: wireguard | uninstall
-  hosts: all
+  hosts: wg
   tasks:
     - include_role:
         name: wireguard
