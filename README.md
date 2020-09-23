@@ -58,5 +58,5 @@ Optional role vars for installing wireguard:
 Ansible role licensed [MIT](LICENSE)
 
 ## Author Information
-+ Ansible role: Sean Ho, https://github.com/ho-ansible/
-+ Wireguard: https://www.wireguard.com/
++ Ansible role by [Sean Ho](https://github.com/ho-ansible/)
++ [Wireguard](https://www.wireguard.com/)

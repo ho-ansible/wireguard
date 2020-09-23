@@ -1,6 +1,6 @@
 galaxy_info:
   author: Sean Ho
-  description: Template ansible role
+  description: Wireguard VPN
   company: Anchorlytics Consulting
   license: MIT
 
@@ -13,7 +13,8 @@ galaxy_info:
     - 10
 
   galaxy_tags:
-  - template
+  - wireguard
+  - vpn
 
 dependencies:
 - role: systemd-networkd

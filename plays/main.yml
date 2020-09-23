@@ -1,5 +1,5 @@
 #! /usr/bin/env ansible-playbook
-# Install wireguard VPN
+# Configure wireguard VPN
 # Replace 'wg' with your own inventory group
 ---
 - name: wireguard | VPN nodes
@@ -7,4 +7,3 @@
   roles:
   - role: wireguard
     when: ansible_virtualization_type != 'openvz'
-
