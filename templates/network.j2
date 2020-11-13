@@ -1,6 +1,9 @@
 [Match]
 Name={{ wg_name }}
 
+[Link]
+RequiredForOnline=no
+
 [Network]
 Address={{ wg_ip }}
 {% for dns in wg_dns | d() %}
