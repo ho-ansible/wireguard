@@ -7,6 +7,7 @@ Keys are stored as hostvars in YAML files in the inventory, and also cached as h
 
 ## Requirements
 Only tested on Debian stable, for now.
+Installs backports kernel for in-tree wireguard module (no DKMS needed).
 OpenVZ support is a to-do item.
 
 ## Role Variables
