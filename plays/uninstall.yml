@@ -1,6 +1,6 @@
 #! /usr/bin/env ansible-playbook
 # Uninstall wireguard VPN
-# Use '-l' option to specify hosts from which to uninstall
+# Run prior to removing host from inventory groups, so hostvars are accessible
 ---
 - name: wireguard | uninstall
   hosts: wg
