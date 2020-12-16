@@ -1,4 +1,5 @@
 ---
+
 - name: wireguard | remove config
   file:
     path: "{{ item }}"
