@@ -3,7 +3,7 @@
 # Use '-l' option to specify hosts from which to uninstall
 ---
 - name: wireguard | uninstall
-  hosts: all
+  hosts: wg
   tasks:
   - include_role:
       name: wireguard

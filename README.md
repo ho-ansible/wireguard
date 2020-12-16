@@ -48,9 +48,8 @@ Optional role vars for installing wireguard:
   This needs to be a name (buster, bullseye), rather than an alias (stable, testing).
 
 ## Playbooks
-<<<<<<< HEAD
 + `main.yml`: installs/configures wireguard
-+ `uninstall.yml`: uninstalls wireguard.  Use `-l` option to specify desired hosts.
++ `uninstall.yml`: uninstalls wireguard. Run before removing from inventory group.
 
 ## Dependencies
 + [ho-ansible.systemd-networkd](https://github.com/ho-ansible/systemd-networkd)
