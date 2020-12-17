@@ -1,20 +1,5 @@
 ---
 
-- name: wireguard | add repo {{ wg_repo_rel }}
-  tags:
-  - apt
-  apt_repository:
-    repo: deb {{ wg_repo }} {{ wg_repo_rel }} main
-    filename: wireguard
-
-- name: wireguard | install {{ wg_repo_rel }} kernel
-  tags:
-  - package
-  apt:
-    default_release: "{{ wg_repo_rel }}"
-    name: linux-headers-{{ ansible_kernel }}
-  notify: restart networkd
-
 - name: wireguard | install packages
   tags:
   - package

@@ -28,9 +28,3 @@
     autoremove: yes
   ignore_errors: yes
 
-- name: wireguard | remove apt repo
-  apt_repository:
-    repo: "deb {{ wg_repo }} {{ wg_repo_rel }} main"
-    filename: wireguard
-    state: absent
-

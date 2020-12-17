@@ -6,8 +6,10 @@ This role uses the built-in wireguard support in systemd-networkd as of v237.
 Keys are stored as hostvars in YAML files in the inventory, and also cached as host facts.
 
 ## Requirements
-Only tested on Debian stable, for now.
-Installs backports kernel for in-tree wireguard module (no DKMS needed).
+Debian stable (buster) with backports kernel (see [common role](https://github.com/ho-ansible/common)).
+If using an older kernel without in-tree wireguard support, you'll also need kernel headers
+and the compiler toolchain for DKMS.
+
 OpenVZ support is a to-do item.
 
 ## Role Variables
