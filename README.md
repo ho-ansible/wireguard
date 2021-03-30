@@ -15,7 +15,7 @@ OpenVZ support is a to-do item.
 ## Role Variables
 + `wg_name` (default: `wg0`): name for the interface
 + `wg_ip` (default: `192.168.1.1/24`): IPv4 address and subnet of this host within the VPN
-+ `wg_peers` (default: none): inventory host list
++ `wg_peers` (default: none): inventory host list, passed to `inventory_hostnames` query
 + `wg_port` (default: empty): UDP port to use.  Set to empty to use the standard port 51820.
   + (This logic is used so that peers can look up the port in host vars.)
 + `wg_ext_ip` (default: `default`): public IPv4 address (without subnet).
