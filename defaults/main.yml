@@ -8,5 +8,3 @@ wg_routes: []
 
 wg_extra_iptables: []
 
-wg_repo: "http://deb.debian.org/debian/"
-wg_repo_rel: buster-backports

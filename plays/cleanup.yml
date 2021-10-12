@@ -1,0 +1,9 @@
+#! /usr/bin/env ansible-playbook
+# Cleanup files from old version of this role
+---
+- name: wireguard | cleanup
+  hosts: wg
+  tasks:
+  - include_role:
+      name: wireguard
+      tasks_from: old-repo.yml

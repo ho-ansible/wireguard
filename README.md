@@ -6,9 +6,7 @@ This role uses the built-in wireguard support in systemd-networkd as of v237.
 Keys are stored as hostvars in YAML files in the inventory, and also cached as host facts.
 
 ## Requirements
-Debian stable (buster) with backports kernel (see [common role](https://github.com/ho-ansible/common)).
-If using an older kernel without in-tree wireguard support, you'll also need kernel headers
-and the compiler toolchain for DKMS.
+Debian bullseye.
 
 OpenVZ support is a to-do item.
 
@@ -43,11 +41,6 @@ Optional role vars for systemd network file:
 
 Optional role vars for systemd-networkd service:
 + `wg_extra_iptables`: list of additional firewall rules, as strings starting with the chain name.
-
-Optional role vars for installing wireguard:
-+ `wg_repo` (default: `http://http.us.debian.org/debian/`): debian repository
-+ `wg_repo_rel` (default: `bullseye`): release for above repo.
-  This needs to be a name (buster, bullseye), rather than an alias (stable, testing).
 
 ## Playbooks
 + `main.yml`: installs/configures wireguard
