@@ -6,4 +6,7 @@
   hosts: wg
   roles:
   - role: wireguard
-    when: ansible_virtualization_type != 'openvz'
+    when: 
+    - ansible_virtualization_type != 'openvz'
+    - ansible_virtualization_type != 'container'
+
