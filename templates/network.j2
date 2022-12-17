@@ -17,11 +17,12 @@ Domains={{ domain }}
 
 {% for peer in q('inventory_hostnames', wg_peers) | 
      reject('equalto', inventory_hostname) %}
+{%   set metric = hostvars[peer]['wg_metric'] | d(1024) %}
 {%   for subnet in hostvars[peer]['wg_routes'] | d() |
      reject('equalto', wg_subnet) %}
 [Route]
 Destination={{ subnet }}
-Metric=1024
+Metric={{ metric }}
 Gateway={{ hostvars[peer]['wg_ip'] | ipaddr('address') }}
 
 {%   endfor %}

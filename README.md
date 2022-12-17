@@ -20,9 +20,9 @@ OpenVZ support is a to-do item.
   Peers will connect to this IP and create a firewall rule allowing packets from this IP.
   Set to string `default` to use `ansible_default_ipv4.address`.
   Set to empty string disable this behavior.
-+ `wg_routes`: list of additional subnets this host can route as gateway (`AllowedIPs`).
++ `wg_routes`: optional list of additional subnets this host can route as gateway (`AllowedIPs`).
   Also affects routing in systemd network config.
-  These routes will be added with high metric (hard-coded at 1024).
++ `wg_metric` (default: 1024): priority with which to add above routes.
 
 Optional role vars for `[Wireguard]` section of netdev:
 + `wg_fwmark`: firewall mark to set on outgoing packets
