@@ -23,7 +23,7 @@ Domains={{ domain }}
 [Route]
 Destination={{ subnet }}
 Metric={{ metric }}
-Gateway={{ hostvars[peer]['wg_ip'] | ipaddr('address') }}
+Gateway={{ hostvars[peer]['wg_ip'] | ansible.utils.ipaddr('address') }}
 
 {%   endfor %}
 {% endfor %}

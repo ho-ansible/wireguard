@@ -9,7 +9,7 @@
 {%   set peer_port = hv.wg_port | d(wg_default_port, true) %}
 {%   set peer_ip = '' %}
 {%   if hv.wg_ext_ip | d() %}
-{%     set peer_ip = hv.wg_ext_ip | ipaddr('address') | d('', true) %}
+{%     set peer_ip = hv.wg_ext_ip | ansible.utils.ipaddr('address') | d('', true) %}
 {%     if hv.ansible_default_ipv4 is defined %}
 {%       set peer_ip = peer_ip | d(hv.ansible_default_ipv4.address, true) %}
 {%     endif %}
