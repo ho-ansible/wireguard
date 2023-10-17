@@ -13,17 +13,17 @@ DNS={{ dns }}
 Domains={{ domain }}
 {% endfor %}
 
-{{ wg_network_opts | d() }}
+{{- wg_network_opts | d() }}
 
-{% for peer in q('inventory_hostnames', wg_peers) | 
-     reject('equalto', inventory_hostname) %}
-{%   set metric = hostvars[peer]['wg_metric'] | d(1024) %}
-{%   for subnet in hostvars[peer]['wg_routes'] | d() |
-     reject('equalto', wg_subnet) %}
+{% for peer in q('inventory_hostnames', wg_peers) | sort
+     if peer != inventory_hostname %}
+{%   set hv = hostvars[peer] %}
+{%   for sn in hv.wg_routes | d() if sn.subnet != wg_subnet %}
+# {{ peer }}
 [Route]
-Destination={{ subnet }}
-Metric={{ metric }}
-Gateway={{ hostvars[peer]['wg_ip'] | ansible.utils.ipaddr('address') }}
+Destination={{ sn.subnet }}
+Metric={{ sn.metric }}
+Gateway={{ hv.wg_ip | ansible.utils.ipaddr('address') }}
 
 {%   endfor %}
 {% endfor %}

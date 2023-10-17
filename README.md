@@ -14,15 +14,18 @@ OpenVZ support is a to-do item.
 + `wg_name` (default: `wg0`): name for the interface
 + `wg_ip` (default: `192.168.1.1/24`): IPv4 address and subnet of this host within the VPN
 + `wg_peers` (default: none): inventory host list, passed to `inventory_hostnames` query
-+ `wg_port` (default: empty): UDP port to use.  Set to empty to use the standard port 51820.
-  + (This logic is used so that peers can look up the port in host vars.)
-+ `wg_ext_ip` (default: `default`): public IPv4 address (without subnet).
-  Peers will connect to this IP and create a firewall rule allowing packets from this IP.
-  Set to string `default` to use `ansible_default_ipv4.address`.
-  Set to empty string disable this behavior.
-+ `wg_routes`: optional list of additional subnets this host can route as gateway (`AllowedIPs`).
-  Also affects routing in systemd network config.
++ `wg_port` (default: 51820): UDP port to use for VPN traffic
++ `wg_ext_ip` (default: `ansible_default_ipv4.address`): 
+  public IP address (without subnet).
+  Peers will connect to this IP and 
+  create a firewall rule allowing packets from this IP.
++ `wg_routes`: optional list of dicts (`subnet`, `metric`) defining 
+  additional subnets this host can route as gateway (`AllowedIPs`).
+  Also affects routing in systemd network config of other hosts.
 + `wg_metric` (default: 1024): priority with which to add above routes.
+
+All the above vars are read from other hosts via `hostvars[]`, so
+they should be set in inventory -- don't rely on the role defaults.
 
 Optional role vars for `[Wireguard]` section of netdev:
 + `wg_fwmark`: firewall mark to set on outgoing packets

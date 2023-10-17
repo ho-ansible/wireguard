@@ -3,7 +3,7 @@ Name={{ wg_name }}
 Kind=wireguard
 
 [WireGuard]
-ListenPort={{ wg_port | d(wg_default_port, true) }}
+ListenPort={{ wg_port }}
 PrivateKey={{ wg_privkey }}
 {% if wg_fwmark is defined %}
 FwMark={{ wg_fwmark }}
@@ -16,18 +16,11 @@ FwMark={{ wg_fwmark }}
 [WireGuardPeer]
 PublicKey={{ hv.wg_pubkey }}
 AllowedIPs={{ hv.wg_ip | ansible.utils.ipaddr('address') | ansible.utils.ipaddr('host') }}
-{%   for subnet in hv.wg_routes | d() %}
-AllowedIPs={{ subnet }}
+{%   for sn in hv.wg_routes | d() %}
+AllowedIPs={{ sn.subnet }}
 {%   endfor %}
-{%   if hv.wg_ext_ip | d() %}
-{%     set peer_ip = hv.wg_ext_ip | ansible.utils.ipaddr() %}
-{%     if hv.ansible_default_ipv4 is defined %}
-{%       set peer_ip = peer_ip | d(hv.ansible_default_ipv4.address, true) %}
-{%     endif %}
-{%   endif %}
-{%   set peer_port = hv.wg_port | d(wg_default_port, true) %}
-{%   if peer_ip | d() %}
-Endpoint={{ peer_ip }}:{{ peer_port }}
+{%   if hv.wg_ext_ip | d() and hv.wg_port | d() %}
+Endpoint={{ hv.wg_ext_ip }}:{{ hv.wg_port }}
 {%   endif %}
 {%   if hv.wg_psk is defined %}
 PresharedKey={{ hv.wg_psk }}

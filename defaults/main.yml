@@ -3,9 +3,8 @@
 wg_name: wg
 wg_ip: "192.168.1.1/24"
 wg_peers:
-wg_ext_ip: default
+wg_ext_ip: "{{ ansible_default_ipv4.address }}"
 wg_routes: []
-wg_metric: 1024
 
 wg_extra_iptables: []
 
