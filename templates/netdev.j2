@@ -18,8 +18,8 @@ FwMark={{ wg_fwmark }}
 [WireGuardPeer]
 PublicKey={{ hv.wg_pubkey }}
 AllowedIPs={{ hv.wg_ip | ansible.utils.ipaddr('address') | ansible.utils.ipaddr('host') }}
-{%   for sn in hv.wg_routes | d() %}
-AllowedIPs={{ sn.subnet }}
+{%   for sn in hv.wg_allowedips | d() %}
+AllowedIPs={{ sn }}
 {%   endfor %}
 {%   if hv.wg_ext_ip | d() and hv.wg_port | d() %}
 Endpoint={{ hv.wg_ext_ip }}:{{ hv.wg_port }}
