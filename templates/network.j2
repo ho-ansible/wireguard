@@ -7,7 +7,7 @@ Name={{ wg_name }}
 RequiredForOnline=no
 
 [Network]
-Address={{ wg_ip }}
+Address={{ wg_ip | ansible.utils.ipaddr('address') | ansible.utils.ipaddr('host') }}
 {% for dns in wg_dns | d() %}
 DNS={{ dns }}
 {% endfor %}
@@ -17,15 +17,11 @@ Domains={{ domain }}
 
 {{- wg_network_opts | d() }}
 
+{# Point-to-point routes to peers #}
 {% for peer in q('inventory_hostnames', wg_peers) | sort
      if peer != inventory_hostname %}
-{%   set hv = hostvars[peer] %}
-{%   for sn in hv.wg_routes | d() if sn.subnet != wg_subnet %}
 # {{ peer }}
 [Route]
-Destination={{ sn.subnet }}
-Metric={{ sn.metric }}
-Gateway={{ hv.wg_ip | ansible.utils.ipaddr('address') }}
+Destination={{ hostvars[peer].wg_ip | ansible.utils.ipaddr('address') }}
 
-{%   endfor %}
 {% endfor %}

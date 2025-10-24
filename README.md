@@ -21,9 +21,6 @@ OpenVZ support is a to-do item.
   create a firewall rule allowing packets from this IP.
 + `wg_allowedips` (default: none): list of subnet destinations allowed 
   to be sent via this peer.
-+ `wg_routes` (default: none): list of dicts (`subnet`, `metric`):
-  subnets to be routed through any wg interface using this peer
-  Also affects routing in systemd network config of other hosts.
 
 All the above vars are read from other hosts via `hostvars[]`, so
 they should be set in inventory -- don't rely on the role defaults.

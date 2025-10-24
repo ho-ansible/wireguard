@@ -6,7 +6,6 @@ wg_peers:
 wg_port: 51820
 wg_ext_ip: "{{ ansible_default_ipv4.address }}"
 wg_allowedips: []
-wg_routes: []
 
 wg_extra_iptables: []
 
