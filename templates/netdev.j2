@@ -6,28 +6,34 @@ Kind=wireguard
 
 [WireGuard]
 ListenPort={{ wg_port }}
-PrivateKey={{ wg_privkey }}
+PrivateKey="{{ lookup('vars', 'wg_keys_' ~ wg_name).pub }}"
 {% if wg_fwmark is defined %}
 FwMark={{ wg_fwmark }}
 {% endif %}
+{% if wg_route_table is defined %}
+RouteTable={{ wg_route_table }}
+{% endif %}
+{% if wg_route_metric is defined %}
+RouteMetric={{ wg_route_metric }}
+{% endif %}
 
 {% for peer in q('inventory_hostnames', wg_peers) | sort
-  if peer != inventory_hostname and hostvars[peer].wg_pubkey is defined %}
+  if peer != inventory_hostname and 
+  hostvars[peer]['wg_keys_' ~ wg_name] is defined %}
 {%   set hv = hostvars[peer] %}
 # {{ peer }}
 [WireGuardPeer]
-PublicKey={{ hv.wg_pubkey }}
-AllowedIPs={{ hv.wg_ip | ansible.utils.ipaddr('address') | ansible.utils.ipaddr('host') }}
-{%   for sn in hv.wg_allowedips | d() %}
+PublicKey={{ hv['wg_keys_' ~ wg_name].pub }}
+{%   for sn in hv.wg_allowedips %}
 AllowedIPs={{ sn }}
 {%   endfor %}
-{%   if hv.wg_ext_ip | d() and hv.wg_port | d() %}
+{%   if hv.wg_ext_ip is defined and hv.wg_port is defined %}
 Endpoint={{ hv.wg_ext_ip }}:{{ hv.wg_port }}
 {%   endif %}
-{%   if hv.wg_psk is defined %}
-PresharedKey={{ hv.wg_psk }}
+{%   if wg_psk is defined %}
+PresharedKey={{ wg_psk }}
 {%   endif %}
-{%   if wg_keepalive is defined %}{# host, not peer #}
+{%   if wg_keepalive is defined %}
 PersistentKeepalive={{ wg_keepalive }}
 {%   endif %}
 

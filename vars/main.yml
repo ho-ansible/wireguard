@@ -1,4 +1,4 @@
 ---
 
-wg_keyfile: "{{ inventory_dir }}/host_vars/{{ inventory_hostname }}/wg_keys.yml"
+wg_keyfile: "{{ inventory_dir }}/host_vars/{{ inventory_hostname }}/wg_keys_{{ wg_name }}.yml"
 wg_iptables_conf: "/etc/systemd/system/systemd-networkd.service.d/{{ wg_name }}.conf"

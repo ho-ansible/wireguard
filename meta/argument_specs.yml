@@ -1,0 +1,85 @@
+---
+# Validate role arguments
+
+argument_specs:
+  main:
+    short_description: Main entry for wireguard role
+    description:
+    - This role configures the host as a member of a Wireguard VPN.
+    - The VPN may have multiple peers, specified in `wg_peers`.
+    - A single VPN (single interface) is created by this role.
+      If multiple VPNs are needed, apply the role multiple times,
+      specifying different role vars as needed.
+    author:
+    - Sean Ho
+    options:
+      wg_name:
+        description:
+        - Identifier for the VPN.  Determines name of the network interface.
+        type: "str"
+        default: "wg"
+      wg_ip:
+        description:
+        - IPv4 address and subnet of this host within the VPN.
+        type: "str"
+        default: "192.168.1.1/24"
+      wg_ext_ip:
+        description:
+        - Public IP address by which this node can be reached.
+        type: "str"
+      wg_port:
+        description:
+        - UDP port to use for VPN traffic.
+        type: "int"
+        default: 51820
+      wg_fwmark:
+        description:
+        - Firewall mark to set on outgoing packets.
+        type: "int"
+      wg_route_table:
+        description:
+        - Table identifier for routes to AllowedIPs subnets.  Valid values are
+          false, "default", "main", "local", names defined in RouteTable= in
+          networkd.conf, or an integer greater than zero.
+        type: "str"
+      wg_route_metric:
+        description:
+        - Priority of routes to AllowedIPs subnets.
+        type: "int"
+      wg_psk:
+        description:
+        - Symmetric pre-shared key.
+        - If this variable is set, the option will be enabled 
+          for all peers from this host.
+        type: "str"
+      wg_keepalive:
+        description:
+        - Interval in seconds to send keepalive packets.
+        - If this variable is set, the option will be enabled 
+          for all peers from this host.
+        type: "int"
+      wg_dns:
+        description:
+        - List of DNS servers to associate with this interface.
+        type: "list"
+        elements: "str"
+      wg_domains:
+        description:
+        - List of domains using given DNS servers on this interface.
+        - Optionally prefix with '~'; see systemd.network(5).
+        type: "list"
+        elements: "str"
+      wg_network_conf:
+        description:
+        - Additional config appended to the systemd network file, 
+          in ini format with newlines.
+        type: "str"
+      wg_iptables:
+        description:
+        - Additional firewall rules, as strings starting with chain name.
+        type: "list"
+        elements: "str"
+      wg_peers:
+        description:
+        - Inventory query (e.g., 'all!web_servers')
+        type: "str"

@@ -1,4 +1,5 @@
 ---
 # {{ ansible_managed }}
-wg_privkey: "{{ wg_privkey }}"
-wg_pubkey: "{{ wg_pubkey }}"
+wg_keys_{{ wg_name }}:
+  priv: "{{ wg_privkey }}"
+  pub : "{{ wg_pubkey  }}"

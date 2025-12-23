@@ -1,0 +1,38 @@
+#! /usr/bin/env ansible-playbook
+# Configure multiple wireguard VPNs
+# Replace 'wg' with your own inventory group
+---
+- name: wireguard | clients
+  hosts: wg:!wg_gw
+  tasks:
+  - name: wireguard role
+    include_role: 
+      name: wireguard
+    vars: 
+      wg_net_id: "{{ hostvars[wg_gw_name].vpn_id }}"
+      wg_name: "{{ 'wg' ~ wg_net_id }}"
+      wg_subnet: "{{ wg_subnet_base | ansible.utils.ipsubnet(24, wg_net_id) }}"
+      wg_ip: "{{ wg_subnet | ansible.utils.ipaddr(vpn_id) }}"
+      wg_dns: "{{ [ wg_subnet | ansible.utils.ipaddr(1) ] }}"
+      wg_port: "{{ 51800 + wg_net_id }}"
+      wg_peers: "{{ wg_gw_name }}"
+      wg_domains:
+      - "{{ wg_name ~ wg_domain_base }}"
+      - "~."
+    when: ansible_virtualization_type != 'container'
+    loop: "{{ groups['wg_gw'] | sort }}"
+    loop_control:
+      loop_var: wg_gw_name
+
+- name: wireguard | gateways
+  hosts: wg_gw
+  tasks:
+  - name: wireguard role
+    include_role: 
+      name: wireguard
+    vars:
+      wg_name: "{{ 'wg' ~ vpn_id }}"
+      wg_port: "{{ 51800 + vpn_id }}"
+      wg_peers: "wg:!wg_gw"
+    when: ansible_virtualization_type != 'container'
+

@@ -7,7 +7,6 @@
 - name: wireguard | genkey | set wg_privkey
   set_fact:
     wg_privkey: "{{ wg_priv.stdout }}"
-    cacheable: yes
 
 - name: wireguard | genkey | public key
   command: wg pubkey
@@ -18,20 +17,26 @@
 - name: wireguard | genkey | set wg_pubkey
   set_fact:
     wg_pubkey: "{{ wg_pub.stdout }}"
-    cacheable: yes
 
 - name: wireguard | genkey | host_vars dir
   become: false
-  local_action:
-    module: file
+  file:
     path: "{{ wg_keyfile | dirname }}"
     state: directory
+  delegate_to: localhost
 
 - name: wireguard | genkey | save keys in host_vars
   become: false
-  local_action:
-    module: template
+  template:
     src: wg_keys.yml.j2
     dest: "{{ wg_keyfile }}"
     mode: 0640
+  delegate_to: localhost
   notify: restart networkd
+
+- name: wireguard | genkey | save keys for current use
+  set_fact: 
+    wg_keys_{{ wg_name }}:
+      priv: "{{ wg_privkey }}"
+      pub : "{{ wg_pubkey  }}"
+    cacheable: yes

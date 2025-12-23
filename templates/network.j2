@@ -2,12 +2,13 @@
 
 [Match]
 Name={{ wg_name }}
+Type=wireguard
 
 [Link]
 RequiredForOnline=no
 
 [Network]
-Address={{ wg_ip | ansible.utils.ipaddr('address') | ansible.utils.ipaddr('host') }}
+Address={{ wg_ip }}
 {% for dns in wg_dns | d() %}
 DNS={{ dns }}
 {% endfor %}
@@ -15,13 +16,4 @@ DNS={{ dns }}
 Domains={{ domain }}
 {% endfor %}
 
-{{- wg_network_opts | d() }}
-
-{# Point-to-point routes to peers #}
-{% for peer in q('inventory_hostnames', wg_peers) | sort
-     if peer != inventory_hostname %}
-# {{ peer }}
-[Route]
-Destination={{ hostvars[peer].wg_ip | ansible.utils.ipaddr('address') }}
-
-{% endfor %}
+{{- wg_network_conf | d() }}

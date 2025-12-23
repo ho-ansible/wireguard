@@ -4,7 +4,8 @@
 {#- Accumulate list of firewall rules #}
 {% set spec_list = [] %}
 {% for peer in q('inventory_hostnames', wg_peers) | sort
-  if peer != inventory_hostname and hostvars[peer].wg_pubkey is defined %}
+  if peer != inventory_hostname and 
+  hostvars[peer]['wg_keys_' ~ wg_name].pub is defined %}
 {%   set hv = hostvars[peer] %}
 {%   set spec_list = spec_list.append((hv.wg_ext_ip | d('', true), hv.wg_port )) %}
 {% endfor %}
@@ -36,7 +37,7 @@ ExecStopPost=!-{{ ipt }} -F {{ ch }}
 ExecStopPost=!-{{ ipt }} -X {{ ch }}
 
 {# Additional custom rules #}
-{% for rule in wg_extra_iptables %}
+{% for rule in wg_iptables | d() %}
 ExecStartPre=!-{{ ipt }} -A {{ rule }}
 ExecStopPost=!-{{ ipt }} -D {{ rule }}
 {% endfor %}

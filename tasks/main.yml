@@ -10,7 +10,7 @@
   notify: restart networkd
 
 - include_tasks: genkey.yml
-  when: wg_privkey is not defined
+  when: lookup('vars', 'wg_keys_' ~ wg_name, default='') | length == 0
 
 - name: wireguard | firewall config dir
   file:
